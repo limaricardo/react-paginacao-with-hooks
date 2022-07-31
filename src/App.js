@@ -1,10 +1,12 @@
 import './App.css';
 import { useEffect, useState } from 'react'
+import PaginationComponent from './components/PaginationComponent';
+import PaginationSelector from './components/PaginationSelector';
 
 function App() {
 
   const [itens, setItens] = useState([])
-  const [itensPerPage, setItensperPage] = useState(10)
+  const [itensPerPage, setItensPerPage] = useState(10)
   const [currentPage, setCurrentPage] = useState(0)
 
   const pages = Math.ceil(itens.length / itensPerPage)
@@ -30,22 +32,13 @@ function App() {
 
   return (
     <div className="App">
-      <div>
-        <select value={itensPerPage} onChange={e => setItensperPage(Number(e.target.value))}>
-          <option value={5}>5</option>
-          <option value={10}>10</option>
-          <option value={20}>20</option>
-          <option value={25}>25</option>
-        </select>
-      </div>
-      <div>
-        {Array.from(Array(pages), (item, index) => {
-          return <button value={index} onClick={e => setCurrentPage(Number(e.target.value))}>{index + 1}</button>
-        })}
-      </div>
+      <PaginationSelector setItensPerPage={setItensPerPage} itensPerPage={itensPerPage} />
+      
       {currentItens.map( item => {
         return <div className='item'><span>{item.id}</span><span>{item.title}<span>{item.completed}</span></span></div>
       })}
+
+      <PaginationComponent setCurrentPage={setCurrentPage} pages={pages} />
     </div>
   );
 }
